@@ -14,8 +14,6 @@ const NuevoPresupuesto = ({ presupuesto, setPresupuesto, setIsValidPresupuesto }
         }
         setMensaje('')
         setIsValidPresupuesto( true )
-        console.log( presupuesto );
-
     }
     
 
