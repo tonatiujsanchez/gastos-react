@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Filtros } from './components/Filtros'
 import Header from './components/Header'
 import ListadoGastos from './components/ListadoGastos'
 import Modal from './components/Modal'
@@ -19,6 +20,9 @@ function App() {
 
   const [ gastoEditar, setGastoEditar ] = useState({})
 
+  const [filtro, setFiltro] = useState('');
+  const [ gastosFiltrados, setGastosFiltrados ] = useState([]);
+
   useEffect(()=>{
     if( Object.keys( gastoEditar ).length > 0 ){
       handleNuevoGasto()
@@ -26,18 +30,17 @@ function App() {
     }
   },[ gastoEditar ])
 
-  
-
 
   useEffect(()=>{
     const presupuestoLS = Number(localStorage.getItem('presupuesto')) ?? 0;
     if( presupuestoLS > 0 ){
       setIsValidPresupuesto(true)
     }
-    
+
     const gastosLS = JSON.parse( localStorage.getItem('gastos') ) ?? [];
     setGatos( gastosLS )
   },[])
+
 
   useEffect( ()=>{
     localStorage.setItem('presupuesto', presupuesto ?? 0)
@@ -46,6 +49,16 @@ function App() {
   useEffect(()=>{
     localStorage.setItem('gastos', JSON.stringify( gastos ));
   }, [ gastos ])
+
+  useEffect(()=>{
+
+    if (filtro) {
+      const gastosFiltrados = gastos.filter( gastoState => gastoState.categoria === filtro )
+      setGastosFiltrados( gastosFiltrados )
+    }
+
+  },[filtro])
+  
 
   const handleNuevoGasto = () => {
     setModal(true)
@@ -79,6 +92,9 @@ function App() {
     setGatos( nuevosGastos )
   }
 
+
+  
+
   return (
     <div className={ modal ? "fijar" : '' }>
       <Header 
@@ -92,10 +108,15 @@ function App() {
       { isValidPresupuesto && (
         <>
           <main>
+            <Filtros
+              filtro = { filtro }
+              setFiltro = { setFiltro } />
             <ListadoGastos
-            gastos={ gastos }
-            setGastoEditar = { setGastoEditar }
-            eliminarGasto = { eliminarGasto } />
+              gastos={ gastos }
+              setGastoEditar = { setGastoEditar }
+              eliminarGasto = { eliminarGasto }
+              filtro = { filtro }
+              gastosFiltrados = { gastosFiltrados } />
           </main>
           <div className="nuevo-gasto">
             <img 
