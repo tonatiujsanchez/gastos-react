@@ -1,7 +1,7 @@
 import Gasto from "./Gasto"
 
 
-const ListadoGastos = ({ gastos }) => {
+const ListadoGastos = ({ gastos, setGastoEditar, eliminarGasto }) => {
   return (
     <div className="listado-gastos contenedor">
         <h2>
@@ -12,7 +12,9 @@ const ListadoGastos = ({ gastos }) => {
             gastos.map(( gasto )=>(
                 <Gasto 
                     gasto = { gasto } 
-                    key={ gasto.id } 
+                    key={ gasto.id }
+                    setGastoEditar = { setGastoEditar }
+                    eliminarGasto = { eliminarGasto } 
                 />
             ))
         }

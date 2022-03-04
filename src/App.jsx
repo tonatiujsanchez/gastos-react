@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import ListadoGastos from './components/ListadoGastos'
 import Modal from './components/Modal'
@@ -15,6 +15,15 @@ function App() {
 
   const [ gastos, setGatos ] = useState([])
 
+  const [ gastoEditar, setGastoEditar ] = useState({})
+
+  useEffect(()=>{
+    if( Object.keys( gastoEditar ).length > 0 ){
+      handleNuevoGasto()
+
+    }
+  },[ gastoEditar ])
+
   const handleNuevoGasto = () => {
     setModal(true)
 
@@ -24,14 +33,27 @@ function App() {
   }
 
   const guardarGasto = ( gasto ) => {
-    gasto.id = generarId();
-    gasto.fecha = Date.now();
-    setGatos( [...gastos, gasto] )
+
+    if( gasto.id ){
+      const gastosActualizados = gastos.map( gastoState => gastoState.id === gasto.id ? gasto : gastoState);
+      setGatos( gastosActualizados );
+
+    }else{
+      gasto.id = generarId();
+      gasto.fecha = Date.now();
+      setGatos( [...gastos, gasto] )
+    }
 
     setAnimarModal(false)
     setTimeout(() => {
+        setGastoEditar({})
         setModal(false)
     }, 500);
+  }
+
+  const eliminarGasto = ( idGasto )=>{
+    const nuevosGastos = gastos.filter( gastoState => gastoState.id !== idGasto )
+    setGatos( nuevosGastos )
   }
 
   return (
@@ -48,7 +70,9 @@ function App() {
         <>
           <main>
             <ListadoGastos
-            gastos={ gastos } />
+            gastos={ gastos }
+            setGastoEditar = { setGastoEditar }
+            eliminarGasto = { eliminarGasto } />
           </main>
           <div className="nuevo-gasto">
             <img 
@@ -64,7 +88,9 @@ function App() {
                           setModal={ setModal } 
                           animarModal = { animarModal }
                           setAnimarModal = { setAnimarModal }
-                          guardarGasto = { guardarGasto } />
+                          guardarGasto = { guardarGasto }
+                          gastoEditar = { gastoEditar }
+                          setGastoEditar = { setGastoEditar } />
 
       }
     </div>
