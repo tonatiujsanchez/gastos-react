@@ -16,7 +16,7 @@ function App() {
   const [ modal, setModal ] = useState(false)
   const [ animarModal, setAnimarModal ] = useState(false)
 
-  const [ gastos, setGatos ] = useState([])
+  const [ gastos, setGastos ] = useState([])
 
   const [ gastoEditar, setGastoEditar ] = useState({})
 
@@ -38,7 +38,7 @@ function App() {
     }
 
     const gastosLS = JSON.parse( localStorage.getItem('gastos') ) ?? [];
-    setGatos( gastosLS )
+    setGastos( gastosLS )
   },[])
 
 
@@ -72,12 +72,12 @@ function App() {
 
     if( gasto.id ){
       const gastosActualizados = gastos.map( gastoState => gastoState.id === gasto.id ? gasto : gastoState);
-      setGatos( gastosActualizados );
+      setGastos( gastosActualizados );
 
     }else{
       gasto.id = generarId();
       gasto.fecha = Date.now();
-      setGatos( [...gastos, gasto] )
+      setGastos( [...gastos, gasto] )
     }
 
     setAnimarModal(false)
@@ -89,7 +89,7 @@ function App() {
 
   const eliminarGasto = ( idGasto )=>{
     const nuevosGastos = gastos.filter( gastoState => gastoState.id !== idGasto )
-    setGatos( nuevosGastos )
+    setGastos( nuevosGastos )
   }
 
 
@@ -103,6 +103,7 @@ function App() {
         isValidPresupuesto = { isValidPresupuesto }
         setIsValidPresupuesto = {setIsValidPresupuesto }
         gastos = { gastos }
+        setGastos = { setGastos }
       />
 
       { isValidPresupuesto && (

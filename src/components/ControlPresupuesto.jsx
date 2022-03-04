@@ -3,7 +3,7 @@ import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 
-const ControlPresupuesto = ({ presupuesto, gastos }) => {
+const ControlPresupuesto = ({ presupuesto, setPresupuesto, gastos, setGastos, setIsValidPresupuesto }) => {
 
     const [ disponible, setDisponible ] = useState(0);
     const [ gastado, setGastado ] = useState(0);
@@ -33,7 +33,14 @@ const ControlPresupuesto = ({ presupuesto, gastos }) => {
         setDisponible( totalDisponible )
     },[gastos])
 
-
+    const handleResetApp = () =>{
+        const result = confirm(`¿Desdeas eliminar todo y reiniciar?`)
+        if( result ){
+            setGastos([])
+            setPresupuesto(0)
+            setIsValidPresupuesto(false)
+        }
+    }
 
     return (
         <div className="contenedor-presupuesto contenedor sombra dos-columnas">
@@ -49,6 +56,7 @@ const ControlPresupuesto = ({ presupuesto, gastos }) => {
                         }) } />
             </div>
             <div className="contenido-presupuesto">
+                <button type="button" className="reset-app" onClick={ handleResetApp }>Reiniciar</button>
                 <p>
                     <span>Presupuesto:</span> { formatearCantidad( presupuesto ) }
                 </p>
