@@ -31,7 +31,7 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto, gastoEdita
         setTimeout(() => {
             setModal(false)
             setGastoEditar({})
-        }, 500);
+        }, 300);
 
     }
 

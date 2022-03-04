@@ -29,7 +29,7 @@ function App() {
 
     setTimeout(() => {
       setAnimarModal(true)
-    }, 300)
+    }, 350)
   }
 
   const guardarGasto = ( gasto ) => {
@@ -48,7 +48,7 @@ function App() {
     setTimeout(() => {
         setGastoEditar({})
         setModal(false)
-    }, 500);
+    }, 300);
   }
 
   const eliminarGasto = ( idGasto )=>{
